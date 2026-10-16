@@ -93,4 +93,32 @@ def save_csv(books):
         print("Помилка запису файлу:", error)
 
 def show_menu():
-    print("\nМЕНЮ ПАРСЕРА КНИГ")
+    print("\nМЕНЮ ПАРСЕРА КНИГ") 
+     print("1 — Перші п'ять книг")
+    print("2 — Усі книги сторінки")
+    print("3 — Пошук за назвою")
+    print("4 — Фільтр за ціною")
+    print("5 — Статистика цін")
+    print("6 — Зберегти у CSV")
+    print("0 — Вихід")
+
+def main():
+    html = download_page(URL)
+    if html is None: return
+    soup, books = parse_books(html)
+    show_title(soup)
+    print("Книг знайдено:", len(books))
+    while True:
+        show_menu()
+        choice = input("Оберіть дію: ").strip()
+        if choice == "1": show_books(books[:5])
+        elif choice == "2": show_books(books)
+        elif choice == "3": search_books(books)
+        elif choice == "4": filter_by_price(books)
+        elif choice == "5": show_statistics(books)
+        elif choice == "6": save_csv(books)
+        elif choice == "0": print("Програму завершено."); break
+        else: print("Невірний вибір, спробуйте ще раз.")
+
+if __name__ == "__main__":
+    main()
